@@ -1,0 +1,16 @@
+/* Pastikan body dan html tidak memiliki margin/padding bawaan browser */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Memaksa root container untuk mengambil full width */
+#root {
+  max-width: 100% !important;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: left; /* Kembalikan perataan teks ke normal */
+}
