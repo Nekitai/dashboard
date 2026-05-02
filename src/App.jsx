@@ -184,6 +184,9 @@ export default function App() {
         setIsLoading(false);
       });
   };
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const getDisplayData = () => {
     const raw = selectedPeriode === "All" ? dataTransaksi : dataTransaksi.filter((d) => d.periode === selectedPeriode);
