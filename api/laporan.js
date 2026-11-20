@@ -12,8 +12,8 @@ export default async function handler(req, res) {
 
   try {
     // Baris 1 diasumsikan header, jadi ambil mulai baris 2. Kolom A-E untuk transaksi,
-    // A-F untuk closing (samakan dengan urutan kolom di sheet kamu).
-    const [rowsTx, rowsCl] = await Promise.all([getSheetRows(`${sheetTransaksi}!A2:E`), getSheetRows(`${sheetClosing}!A2:F`)]);
+    // A-G untuk closing (G = catatan operasional Fuso, boleh kosong).
+    const [rowsTx, rowsCl] = await Promise.all([getSheetRows(`${sheetTransaksi}!A2:E`), getSheetRows(`${sheetClosing}!A2:G`)]);
 
     let transaksi = rowsTx
       .filter((r) => r[0])
@@ -34,6 +34,8 @@ export default async function handler(req, res) {
         transport: Number(r[3]) || 0,
         buruh: Number(r[4]) || 0,
         total: Number(r[5]) || 0,
+        // Sheets API membuang sel kosong di ujung baris, jadi r[6] bisa undefined
+        catatan: r[6] ? String(r[6]).trim() : "",
       }));
 
     if (periode && periode !== "All") {

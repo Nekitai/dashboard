@@ -56,7 +56,7 @@ function PeriodePill({ periode }) {
   );
 }
 
-function MetricCard({ label, value, sub, bg, lbl, val, isMobile }) {
+function MetricCard({ label, value, sub, footer, bg, lbl, val, isMobile }) {
   return (
     <div
       style={{
@@ -94,6 +94,22 @@ function MetricCard({ label, value, sub, bg, lbl, val, isMobile }) {
         {value}
       </div>
       {sub && <div style={{ fontSize: isMobile ? 15 : 15, color: lbl || "#8A7560", marginTop: 5 }}>{sub}</div>}
+      {footer && (
+        <div
+          style={{
+            marginTop: 10,
+            paddingTop: 8,
+            borderTop: "1px solid #E3D8C4",
+            fontSize: isMobile ? 12 : 13,
+            lineHeight: 1.5,
+            color: lbl || "#8A7560",
+            whiteSpace: "pre-wrap",
+            overflowWrap: "anywhere",
+          }}
+        >
+          📝 {footer}
+        </div>
+      )}
     </div>
   );
 }
@@ -201,6 +217,9 @@ export default function App() {
           { fuso: 0, kontainer: 0, transport: 0, buruh: 0, total: 0 },
         )
       : dataClosing.find((d) => d.periode === selectedPeriode) || { fuso: 0, kontainer: 0, transport: 0, buruh: 0, total: 0 };
+
+  // Catatan operasional Fuso = kolom G sheet Closing pada baris periode yang dipilih.
+  const fusoCatatan = selectedPeriode === "All" ? "" : dataClosing.find((d) => d.periode === selectedPeriode)?.catatan || "Belum ada catatan operasional Fuso";
 
   const nilaiTotalKeseluruhan = rekap.total > 0 ? rekap.total : totalUangSementara;
   const avg = displayTransaksi.length ? totalUangSementara / displayTransaksi.length : 0;
@@ -349,6 +368,7 @@ export default function App() {
                 {rekap.fuso} <span style={{ fontSize: isMobile ? 12 : 14, fontWeight: 400 }}>Unit</span>
               </>
             }
+            footer={fusoCatatan}
             bg="#F9F6F0"
             lbl="#8A7560"
             val="#3D2C1A"
